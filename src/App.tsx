@@ -10,6 +10,9 @@ import ResumePage from './pages/ResumePage';
 import TrackerPage from './pages/TrackerPage';
 import AboutPage from './pages/AboutPage';
 
+const FAMILY_THEME_KEY = 'sathi-family-theme';
+const FAMILY_THEME_MODE_KEY = 'sathi-family-theme-mode';
+
 // Register Service Worker for PWA
 function registerSW() {
   if ('serviceWorker' in navigator) {
@@ -22,7 +25,41 @@ function registerSW() {
 }
 
 export default function App() {
-  useEffect(() => { registerSW(); }, []);
+  useEffect(() => {
+    registerSW();
+
+    const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const applyFamilyTheme = () => {
+      const themePreference = localStorage.getItem(FAMILY_THEME_MODE_KEY) || localStorage.getItem(FAMILY_THEME_KEY) || 'system';
+      const resolvedTheme = themePreference === 'system'
+        ? (systemThemeQuery.matches ? 'dark' : 'light')
+        : themePreference;
+      document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+    };
+
+    applyFamilyTheme();
+
+    const handleSystemThemeChange = () => {
+      if ((localStorage.getItem(FAMILY_THEME_MODE_KEY) || 'system') === 'system') {
+        applyFamilyTheme();
+      }
+    };
+
+    if (typeof systemThemeQuery.addEventListener === 'function') {
+      systemThemeQuery.addEventListener('change', handleSystemThemeChange);
+    } else if (typeof systemThemeQuery.addListener === 'function') {
+      systemThemeQuery.addListener(handleSystemThemeChange);
+    }
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === FAMILY_THEME_KEY || event.key === FAMILY_THEME_MODE_KEY) {
+        applyFamilyTheme();
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
 
   return (
     <BrowserRouter basename="/rozgar-sathi">

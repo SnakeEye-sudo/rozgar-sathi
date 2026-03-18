@@ -14,7 +14,10 @@ export default function InstallPrompt() {
 
   useEffect(() => {
     // Already installed as PWA
-    if (window.matchMedia('(display-mode: standalone)').matches) return;
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      localStorage.setItem('sathi-installed-rozgar-sathi', 'true');
+      return;
+    }
     if (localStorage.getItem('rozgar-pwa-dismissed')) return;
 
     const handler = (e: Event) => {
@@ -25,7 +28,10 @@ export default function InstallPrompt() {
     };
 
     window.addEventListener('beforeinstallprompt', handler);
-    window.addEventListener('appinstalled', () => setInstalled(true));
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('sathi-installed-rozgar-sathi', 'true');
+      setInstalled(true);
+    });
 
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
@@ -34,7 +40,10 @@ export default function InstallPrompt() {
     if (!deferredPrompt) return;
     await deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') setInstalled(true);
+    if (outcome === 'accepted') {
+      localStorage.setItem('sathi-installed-rozgar-sathi', 'true');
+      setInstalled(true);
+    }
     setShow(false);
     setDeferredPrompt(null);
   };
