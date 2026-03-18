@@ -115,7 +115,7 @@ export default function ResumePage() {
                 <label className={labelClass}>{f.label}</label>
                 <input
                   type="text"
-                  value={(data as Record<string, unknown>)[f.field] as string}
+                  value={(data as unknown as Record<string, string>)[f.field]}
                   onChange={e => updateField(f.field as keyof ResumeData, e.target.value)}
                   placeholder={f.placeholder}
                   className={inputClass}
