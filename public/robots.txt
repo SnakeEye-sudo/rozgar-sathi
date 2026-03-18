@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://snakeeye-sudo.github.io/rozgar-sathi/sitemap.xml
