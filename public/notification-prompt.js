@@ -1,10 +1,58 @@
-"use strict";
+﻿"use strict";
 (() => {
   const PROMPT_ID = "sathi-notification-prompt";
   const DISMISS_KEY = `${location.pathname}:notification-prompt-dismissed-until`;
+  const GRANTED_KEY = `${location.pathname}:notification-prompt-granted`;
   const DAY = 24 * 60 * 60 * 1000;
+  const APP_SEGMENT = location.pathname.split("/").filter(Boolean)[0] || "";
+  const APP_ID = APP_SEGMENT ? APP_SEGMENT.toLowerCase() : "";
+  const INSTALL_KEY = APP_ID ? `sathi-installed-${APP_ID}` : "";
+  let refreshing = false;
 
-  if (!("Notification" in window)) return;
+  function markInstalled() {
+    if (INSTALL_KEY) {
+      localStorage.setItem(INSTALL_KEY, "true");
+    }
+  }
+
+  async function refreshInstalledShell() {
+    if (!("serviceWorker" in navigator)) return;
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      await registration?.update();
+    } catch (error) {
+      console.error("Service worker refresh check failed", error);
+    }
+  }
+
+  async function registerServiceWorker() {
+    if (!("serviceWorker" in navigator) || window.__sathiSwManaged) return null;
+
+    window.__sathiSwManaged = true;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
+
+    try {
+      const registration = await navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" });
+      registration.addEventListener("updatefound", () => {
+        const worker = registration.installing;
+        if (!worker) return;
+        worker.addEventListener("statechange", () => {
+          if (worker.state === "installed" && navigator.serviceWorker.controller) {
+            worker.postMessage({ type: "SKIP_WAITING" });
+          }
+        });
+      });
+      await registration.update();
+      return registration;
+    } catch (error) {
+      console.error("Service worker registration failed", error);
+      return null;
+    }
+  }
 
   function saveDismiss(days) {
     localStorage.setItem(DISMISS_KEY, String(Date.now() + days * DAY));
@@ -40,8 +88,12 @@
   }
 
   function injectPrompt() {
+    if (!("Notification" in window)) return;
     if (document.getElementById(PROMPT_ID) || isDismissed()) return;
-    if (Notification.permission === "granted") return;
+    if (Notification.permission === "granted") {
+      localStorage.setItem(GRANTED_KEY, "true");
+      return;
+    }
 
     const denied = Notification.permission === "denied";
     const prompt = document.createElement("section");
@@ -68,9 +120,22 @@
           -webkit-backdrop-filter: blur(20px);
           font-family: "Noto Sans Devanagari", sans-serif;
         }
-        #${PROMPT_ID} h3 { margin: 0; font-size: 1.05rem; line-height: 1.35; }
-        #${PROMPT_ID} p { margin: 0; color: rgba(244, 248, 255, 0.82); line-height: 1.55; font-size: 0.94rem; }
-        #${PROMPT_ID} .sathi-notification-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        #${PROMPT_ID} h3 {
+          margin: 0;
+          font-size: 1.05rem;
+          line-height: 1.35;
+        }
+        #${PROMPT_ID} p {
+          margin: 0;
+          color: rgba(244, 248, 255, 0.82);
+          line-height: 1.55;
+          font-size: 0.94rem;
+        }
+        #${PROMPT_ID} .sathi-notification-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
         #${PROMPT_ID} button {
           border: none;
           border-radius: 999px;
@@ -79,8 +144,30 @@
           font: inherit;
           cursor: pointer;
         }
-        #${PROMPT_ID} .sathi-allow-btn { background: linear-gradient(135deg, #5cf2d6, #ffb36b); color: #07121a; font-weight: 700; }
-        #${PROMPT_ID} .sathi-secondary-btn { background: rgba(255, 255, 255, 0.08); color: #f4f8ff; border: 1px solid rgba(255, 255, 255, 0.14); }
+        #${PROMPT_ID} .sathi-allow-btn {
+          background: linear-gradient(135deg, #5cf2d6, #ffb36b);
+          color: #07121a;
+          font-weight: 700;
+        }
+        #${PROMPT_ID} .sathi-secondary-btn {
+          background: rgba(255, 255, 255, 0.08);
+          color: #f4f8ff;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+        @media (max-width: 640px) {
+          #${PROMPT_ID} {
+            inset: auto 12px 12px 12px;
+            width: auto;
+            border-radius: 20px;
+            padding: 16px;
+          }
+          #${PROMPT_ID} .sathi-notification-actions {
+            flex-direction: column;
+          }
+          #${PROMPT_ID} button {
+            width: 100%;
+          }
+        }
       </style>
       <h3>${denied ? "Notifications blocked hain" : "Notifications on karen?"}</h3>
       <p>${denied
@@ -113,6 +200,7 @@
       try {
         const permission = await Notification.requestPermission();
         if (permission === "granted") {
+          localStorage.setItem(GRANTED_KEY, "true");
           removePrompt();
           await showWelcomeNotification();
           return;
@@ -128,7 +216,25 @@
     document.body.appendChild(prompt);
   }
 
+  if (window.matchMedia("(display-mode: standalone)").matches) {
+    markInstalled();
+  }
+
+  window.addEventListener("appinstalled", markInstalled);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      void refreshInstalledShell();
+    }
+  });
+  window.addEventListener("focus", () => {
+    void refreshInstalledShell();
+  });
+
   window.addEventListener("load", () => {
-    window.setTimeout(injectPrompt, 1400);
+    void registerServiceWorker();
+    if ("Notification" in window) {
+      window.setTimeout(injectPrompt, 1400);
+    }
   }, { once: true });
 })();
+
