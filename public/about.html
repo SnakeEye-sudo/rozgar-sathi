@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Rozgar Sathi | Er. Sangam Krishna</title>
+  <meta name="description" content="Rozgar Sathi ke baare mein jaanein. UPSC, BPSC, SSC, Railway, Banking aspirants ke liye free sarkari naukri portal. Developed by Er. Sangam Krishna." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://snakeeye-sudo.github.io/rozgar-sathi/about.html" />
+  <meta property="og:title" content="About Rozgar Sathi" />
+  <meta property="og:description" content="Free government job portal for competitive exam aspirants. Developed by Er. Sangam Krishna." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Rozgar Sathi" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; background: #f9fafb; color: #111827; line-height: 1.7; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Header */
+    header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 0 1.5rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .logo { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 8px; color: #111827; }
+    .logo span.saffron { color: #f97316; }
+    .logo span.blue { color: #2563eb; }
+    nav { display: flex; gap: 4px; }
+    nav a { padding: 6px 12px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; color: #4b5563; transition: background 0.15s; }
+    nav a:hover, nav a.active { background: #eff6ff; color: #1d4ed8; text-decoration: none; }
+    @media (max-width: 640px) { nav { display: none; } }
+
+    /* Main */
+    main { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .subtitle { color: #6b7280; margin-bottom: 2rem; font-size: 1rem; }
+
+    /* Ad */
+    .ad-box { background: #f3f4f6; border: 1px dashed #d1d5db; border-radius: 12px; padding: 1rem; text-align: center; margin: 1.5rem 0; min-height: 90px; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 0.8rem; }
+
+    /* Cards */
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+    .card p { color: #374151; margin-bottom: 0.75rem; }
+    .card ul { padding-left: 1.25rem; color: #374151; }
+    .card ul li { margin-bottom: 0.5rem; }
+
+    /* App grid */
+    .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 0.75rem; }
+    .app-card { background: #eff6ff; border-radius: 10px; padding: 1rem; transition: background 0.15s; }
+    .app-card:hover { background: #dbeafe; text-decoration: none; }
+    .app-card .emoji { font-size: 1.75rem; margin-bottom: 0.4rem; }
+    .app-card .name { font-weight: 700; color: #1d4ed8; }
+    .app-card .desc { font-size: 0.8rem; color: #4b5563; margin-top: 0.25rem; }
+
+    /* Developer */
+    .dev-card { display: flex; align-items: center; gap: 1rem; }
+    .dev-avatar { width: 60px; height: 60px; background: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; flex-shrink: 0; }
+    .dev-name { font-size: 1.1rem; font-weight: 700; }
+    .dev-link { font-size: 0.875rem; color: #2563eb; }
+    .dev-bio { font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0; }
+    .stat { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; text-align: center; }
+    .stat-num { font-size: 1.75rem; font-weight: 700; color: #2563eb; }
+    .stat-label { font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem; }
+
+    /* Footer */
+    footer { background: #111827; color: #9ca3af; padding: 2.5rem 1.5rem; margin-top: 3rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+    .footer-brand { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .footer-desc { font-size: 0.85rem; line-height: 1.6; }
+    .footer-heading { color: #fff; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.95rem; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 0.4rem; }
+    .footer-links a { color: #9ca3af; font-size: 0.875rem; transition: color 0.15s; }
+    .footer-links a:hover { color: #fff; text-decoration: none; }
+    .footer-bottom { border-top: 1px solid #374151; padding-top: 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; font-size: 0.85rem; }
+    .footer-bottom span.white { color: #fff; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="./index.html" class="logo">
+      <span>💼</span>
+      <span class="saffron">रोज़गार</span><span class="blue">Sathi</span>
+    </a>
+    <nav>
+      <a href="./index.html">नौकरियां</a>
+      <a href="./resume.html">रिज्यूमे</a>
+      <a href="./tracker.html">ट्रैकर</a>
+      <a href="./about.html" class="active">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>🏛️ About Rozgar Sathi</h1>
+  <p class="subtitle">Sarkari Naukri One Stop Shop — Free, No Login Required for Browsing</p>
+
+  <!-- Ad -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1001001001" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num">6+</div><div class="stat-label">Active Exams</div></div>
+    <div class="stat"><div class="stat-num">40,000+</div><div class="stat-label">Total Posts</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free</div></div>
+  </div>
+
+  <!-- What is -->
+  <div class="card">
+    <h2>💼 Rozgar Sathi Kya Hai?</h2>
+    <p>
+      <strong>Rozgar Sathi</strong> ek free, one-stop platform hai jo India ke sarkari naukri ke aspirants ke liye banaya gaya hai.
+      Yahan Railway, SSC, Banking, UPSC, BPSC aur State PSC ki vacancies ek jagah milti hain — poori eligibility, fees, important dates aur direct apply links ke saath.
+    </p>
+    <p>
+      Hamara goal hai ki ek aspirant ko kisi bhi sarkari naukri ke baare mein poori jaankari ek hi jagah mile — chahe woh eligibility ho, application fee ho, form kahan se bharna ho, ya exam date kya hai.
+    </p>
+  </div>
+
+  <!-- Features -->
+  <div class="card">
+    <h2>✨ Features</h2>
+    <ul>
+      <li>📋 Sarkari vacancy listings with complete details</li>
+      <li>💰 Fee structure for all categories — General, OBC, SC/ST, Female</li>
+      <li>📅 Important dates — notification, apply start/end, exam, result</li>
+      <li>🎯 Selection process step-by-step for each exam</li>
+      <li>💵 Salary range clearly mentioned</li>
+      <li>🔗 Direct apply link + official notification PDF link</li>
+      <li>📄 Free Resume Builder with PDF download (watermarked)</li>
+      <li>📊 Application Tracker — track all your applied jobs</li>
+      <li>🔐 Google Sign-In — same account works on Samachar Sathi & Pariksha Sathi</li>
+      <li>🌐 Hindi & English toggle</li>
+      <li>📱 Fully mobile friendly</li>
+    </ul>
+  </div>
+
+  <!-- Ad mid -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1001001002" data-ad-format="rectangle" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Sathi Series -->
+  <div class="card">
+    <h2>🔗 Sathi Series</h2>
+    <p>Rozgar Sathi, <strong>Sathi Series</strong> ka hissa hai — UPSC/BPSC aspirants ke liye free tools ka collection. Ek Google login se teeno apps mein automatically logged in ho jaate ho.</p>
+    <div class="app-grid">
+      <a href="https://snakeeye-sudo.github.io/Samachar-Sathi/" target="_blank" class="app-card">
+        <div class="emoji">🗞️</div>
+        <div class="name">Samachar Sathi</div>
+        <div class="desc">Daily news analysis & MCQ for UPSC/BPSC</div>
+      </a>
+      <a href="https://snakeeye-sudo.github.io/pariksha-sathi/" target="_blank" class="app-card">
+        <div class="emoji">📚</div>
+        <div class="name">Pariksha Sathi</div>
+        <div class="desc">Study planner & notes</div>
+      </a>
+      <a href="./index.html" class="app-card">
+        <div class="emoji">💼</div>
+        <div class="name">Rozgar Sathi</div>
+        <div class="desc">Sarkari jobs one stop shop</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Developer -->
+  <div class="card">
+    <h2>👨‍💻 Developer</h2>
+    <div class="dev-card">
+      <div class="dev-avatar">👨‍💻</div>
+      <div>
+        <div class="dev-name">Er. Sangam Krishna</div>
+        <a href="https://github.com/SnakeEye-sudo" target="_blank" class="dev-link">@SnakeEye-sudo on GitHub</a>
+        <div class="dev-bio">UPSC/BPSC aspirants ke liye free tools bana raha hoon. Samachar Sathi, Pariksha Sathi aur Rozgar Sathi — teeno apps usi dedication se bane hain.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="card">
+    <h2>⚠️ Disclaimer</h2>
+    <p style="font-size:0.9rem; color:#6b7280;">
+      Rozgar Sathi ek informational platform hai. Aavedan karne se pehle hamesha official websites se jaankari verify karein.
+      Vacancy information mein kisi bhi galti ke liye hum zimmedaar nahi hain. Apply links official government portals par redirect karte hain.
+    </p>
+  </div>
+
+  <!-- Bottom Ad -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1001001003" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">💼 रोज़गार Sathi</div>
+        <p class="footer-desc">Free sarkari naukri portal for UPSC, BPSC, SSC, Railway, Banking aspirants.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Pages</div>
+        <ul class="footer-links">
+          <li><a href="./index.html">नौकरियां</a></li>
+          <li><a href="./resume.html">Resume Builder</a></li>
+          <li><a href="./tracker.html">Application Tracker</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="./terms.html">Terms & Conditions</a></li>
+          <li><a href="./contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Sathi Series</div>
+        <ul class="footer-links">
+          <li><a href="https://snakeeye-sudo.github.io/Samachar-Sathi/" target="_blank">🗞️ Samachar Sathi</a></li>
+          <li><a href="https://snakeeye-sudo.github.io/pariksha-sathi/" target="_blank">📚 Pariksha Sathi</a></li>
+          <li><a href="./index.html">💼 Rozgar Sathi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Made with ❤️ for UPSC/BPSC aspirants</span>
+      <span>Developed by <span class="white">Er. Sangam Krishna</span></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

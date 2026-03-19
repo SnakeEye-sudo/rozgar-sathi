@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Rozgar Sathi | Er. Sangam Krishna</title>
+  <meta name="description" content="Rozgar Sathi se sampark karein. Sarkari naukri suggestions, bug reports, ya koi bhi sawaal ke liye contact karein Er. Sangam Krishna ko." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://snakeeye-sudo.github.io/rozgar-sathi/contact.html" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Rozgar Sathi" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; background: #f9fafb; color: #111827; line-height: 1.7; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 0 1.5rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .logo { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 8px; color: #111827; }
+    .logo .saffron { color: #f97316; }
+    .logo .blue { color: #2563eb; }
+    nav { display: flex; gap: 4px; }
+    nav a { padding: 6px 12px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; color: #4b5563; transition: background 0.15s; }
+    nav a:hover { background: #eff6ff; color: #1d4ed8; text-decoration: none; }
+    @media (max-width: 640px) { nav { display: none; } }
+
+    main { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .subtitle { color: #6b7280; margin-bottom: 2rem; }
+
+    .ad-box { background: #f3f4f6; border: 1px dashed #d1d5db; border-radius: 12px; padding: 1rem; text-align: center; margin: 1.5rem 0; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* Contact cards */
+    .contact-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; transition: box-shadow 0.15s; }
+    .contact-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .contact-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+    .contact-icon.github { background: #f3f4f6; }
+    .contact-icon.email { background: #fef3c7; }
+    .contact-icon.issues { background: #ede9fe; }
+    .contact-icon.sathi { background: #dbeafe; }
+    .contact-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+    .contact-desc { font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem; }
+    .contact-link { font-size: 0.875rem; font-weight: 500; color: #2563eb; }
+
+    /* Form */
+    .form-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.75rem; margin-top: 1.5rem; }
+    .form-card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    label { display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.4rem; }
+    input, select, textarea {
+      width: 100%; padding: 0.625rem 0.875rem; border: 1px solid #d1d5db; border-radius: 10px;
+      font-size: 0.9rem; font-family: inherit; background: #fff; color: #111827;
+      transition: border-color 0.15s, box-shadow 0.15s; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    textarea { resize: vertical; min-height: 120px; }
+    .btn-submit {
+      width: 100%; padding: 0.75rem; background: #2563eb; color: #fff; font-size: 1rem;
+      font-weight: 600; border: none; border-radius: 10px; cursor: pointer; font-family: inherit;
+      transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-submit:hover { background: #1d4ed8; }
+    .form-note { font-size: 0.8rem; color: #9ca3af; margin-top: 0.75rem; text-align: center; }
+
+    /* Success message */
+    .success-msg { display: none; background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 1rem 1.25rem; color: #166534; font-size: 0.95rem; margin-top: 1rem; }
+
+    /* FAQ */
+    .faq-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.5rem; margin-top: 1.5rem; }
+    .faq-card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; }
+    .faq-item { border-bottom: 1px solid #f3f4f6; padding: 0.875rem 0; }
+    .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .faq-q { font-weight: 600; font-size: 0.95rem; color: #1e3a8a; margin-bottom: 0.4rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { font-size: 0.9rem; color: #4b5563; line-height: 1.6; }
+
+    footer { background: #111827; color: #9ca3af; padding: 2.5rem 1.5rem; margin-top: 3rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+    .footer-brand { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .footer-desc { font-size: 0.85rem; line-height: 1.6; }
+    .footer-heading { color: #fff; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.95rem; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 0.4rem; }
+    .footer-links a { color: #9ca3af; font-size: 0.875rem; transition: color 0.15s; }
+    .footer-links a:hover { color: #fff; text-decoration: none; }
+    .footer-bottom { border-top: 1px solid #374151; padding-top: 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; font-size: 0.85rem; }
+    .footer-bottom .white { color: #fff; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="./index.html" class="logo">
+      <span>💼</span>
+      <span class="saffron">रोज़गार</span><span class="blue">Sathi</span>
+    </a>
+    <nav>
+      <a href="./index.html">नौकरियां</a>
+      <a href="./resume.html">रिज्यूमे</a>
+      <a href="./tracker.html">ट्रैकर</a>
+      <a href="./about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>📬 Contact Us</h1>
+  <p class="subtitle">Koi sawaal, suggestion, ya bug report? Hum sunne ke liye hain.</p>
+
+  <!-- Ad -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4001004001" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Contact options -->
+  <div class="grid-2">
+    <div class="contact-card">
+      <div class="contact-icon github">🐙</div>
+      <div>
+        <div class="contact-title">GitHub Profile</div>
+        <div class="contact-desc">Developer ke GitHub par directly message ya follow karein.</div>
+        <a href="https://github.com/SnakeEye-sudo" target="_blank" class="contact-link">@SnakeEye-sudo →</a>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon issues">🐛</div>
+      <div>
+        <div class="contact-title">Bug Report / Feature Request</div>
+        <div class="contact-desc">GitHub Issues par bug report ya feature request submit karein.</div>
+        <a href="https://github.com/SnakeEye-sudo/rozgar-sathi/issues" target="_blank" class="contact-link">Open an Issue →</a>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon sathi">🗞️</div>
+      <div>
+        <div class="contact-title">Samachar Sathi</div>
+        <div class="contact-desc">Daily news analysis & MCQ for UPSC/BPSC.</div>
+        <a href="https://snakeeye-sudo.github.io/Samachar-Sathi/" target="_blank" class="contact-link">Visit →</a>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon sathi">📚</div>
+      <div>
+        <div class="contact-title">Pariksha Sathi</div>
+        <div class="contact-desc">Study planner & notes for competitive exams.</div>
+        <a href="https://snakeeye-sudo.github.io/pariksha-sathi/" target="_blank" class="contact-link">Visit →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="form-card">
+    <h2>✉️ Send a Message</h2>
+    <form id="contactForm" onsubmit="handleSubmit(event)">
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="name">Aapka Naam *</label>
+          <input type="text" id="name" name="name" placeholder="Er. Ramesh Kumar" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="aapka@email.com" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="subject">Subject *</label>
+        <select id="subject" name="subject" required>
+          <option value="">-- Select Subject --</option>
+          <option value="job_suggestion">Naukri Suggestion (New vacancy add karwani hai)</option>
+          <option value="bug_report">Bug Report (Kuch kaam nahi kar raha)</option>
+          <option value="feature_request">Feature Request (Naya feature chahiye)</option>
+          <option value="resume_help">Resume Builder Help</option>
+          <option value="data_deletion">Data Deletion Request</option>
+          <option value="adsense">AdSense / Monetization</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" placeholder="Apna sawaal ya suggestion yahan likhein..." required></textarea>
+      </div>
+      <button type="submit" class="btn-submit">
+        <span>📤</span> Message Bhejein
+      </button>
+      <p class="form-note">
+        Note: Yeh form GitHub Issues se connected hai. Aapka message GitHub par submit hoga.
+        Alternatively, directly <a href="https://github.com/SnakeEye-sudo" target="_blank">GitHub</a> par contact karein.
+      </p>
+    </form>
+    <div class="success-msg" id="successMsg">
+      ✅ Shukriya! Aapka message mil gaya. Hum jald hi jawab denge. GitHub Issues par bhi track kar sakte hain.
+    </div>
+  </div>
+
+  <!-- Ad mid -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4001004002" data-ad-format="rectangle" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-card">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Rozgar Sathi bilkul free hai?</div>
+      <div class="faq-a">Haan, Rozgar Sathi 100% free hai. Koi subscription ya payment nahi. Ads se platform maintain hota hai.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Ek login se teeno apps mein kaise kaam karta hai?</div>
+      <div class="faq-a">Teeno apps (Samachar Sathi, Pariksha Sathi, Rozgar Sathi) same Firebase project use karte hain. Ek baar Google se login karo, teeno mein automatically logged in ho jaate ho.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Mera resume data safe hai?</div>
+      <div class="faq-a">Haan. Resume data aapke browser ke localStorage mein save hota hai. Login karne par Firebase Firestore mein sync hota hai jo encrypted hai. Hum aapka data kabhi share nahi karte.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Naya sarkari vacancy add karwana hai, kaise karein?</div>
+      <div class="faq-a">Upar contact form mein "Naukri Suggestion" select karke vacancy ki details bhejein, ya GitHub Issues par submit karein. Hum jald add kar denge.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Apna account aur data delete karna hai?</div>
+      <div class="faq-a">Contact form mein "Data Deletion Request" select karke apna registered email bhejein. 7 working days mein aapka data delete kar diya jayega.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Apply link official website par le jaata hai?</div>
+      <div class="faq-a">Haan, bilkul. Sabhi apply links official government portals (ssc.gov.in, rrbapply.gov.in, ibps.in, etc.) par redirect karte hain. Hum koi third-party form nahi use karte.</div>
+    </div>
+  </div>
+
+  <!-- Bottom Ad -->
+  <div class="ad-box">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="4001004003" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">💼 रोज़गार Sathi</div>
+        <p class="footer-desc">Free sarkari naukri portal for UPSC, BPSC, SSC, Railway, Banking aspirants.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Pages</div>
+        <ul class="footer-links">
+          <li><a href="./index.html">नौकरियां</a></li>
+          <li><a href="./resume.html">Resume Builder</a></li>
+          <li><a href="./tracker.html">Application Tracker</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="./terms.html">Terms & Conditions</a></li>
+          <li><a href="./contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Sathi Series</div>
+        <ul class="footer-links">
+          <li><a href="https://snakeeye-sudo.github.io/Samachar-Sathi/" target="_blank">🗞️ Samachar Sathi</a></li>
+          <li><a href="https://snakeeye-sudo.github.io/pariksha-sathi/" target="_blank">📚 Pariksha Sathi</a></li>
+          <li><a href="./index.html">💼 Rozgar Sathi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Made with ❤️ for UPSC/BPSC aspirants</span>
+      <span>Developed by <span class="white">Er. Sangam Krishna</span></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    // Open GitHub issue with pre-filled content
+    const issueTitle = encodeURIComponent(`[${subject}] Message from ${name}`);
+    const issueBody = encodeURIComponent(`**From:** ${name}\n**Email:** ${email}\n**Subject:** ${subject}\n\n**Message:**\n${message}`);
+    const githubUrl = `https://github.com/SnakeEye-sudo/rozgar-sathi/issues/new?title=${issueTitle}&body=${issueBody}`;
+
+    window.open(githubUrl, '_blank');
+
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

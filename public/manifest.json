@@ -1,0 +1,55 @@
+{
+  "name": "Rozgar Sathi - Sarkari Naukri",
+  "short_name": "Rozgar Sathi",
+  "description": "Sarkari Naukri One Stop Shop — UPSC, BPSC, SSC, Railway, Banking vacancies with eligibility, fees & apply links.",
+  "start_url": "/rozgar-sathi/",
+  "scope": "/rozgar-sathi/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1d4ed8",
+  "theme_color": "#1d4ed8",
+  "lang": "hi",
+  "categories": ["education", "government", "jobs"],
+  "icons": [
+    { "src": "/rozgar-sathi/icons/icon-72.png", "sizes": "72x72", "type": "image/png", "purpose": "any" },
+    { "src": "/rozgar-sathi/icons/icon-96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "/rozgar-sathi/icons/icon-128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
+    { "src": "/rozgar-sathi/icons/icon-144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "/rozgar-sathi/icons/icon-152.png", "sizes": "152x152", "type": "image/png", "purpose": "any" },
+    { "src": "/rozgar-sathi/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/rozgar-sathi/icons/icon-384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "/rozgar-sathi/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "/rozgar-sathi/icons/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Rozgar Sathi - Job Listings"
+    },
+    {
+      "src": "/rozgar-sathi/icons/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Rozgar Sathi on Mobile"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Naukri Dekho",
+      "short_name": "Jobs",
+      "description": "Sarkari vacancy list",
+      "url": "/rozgar-sathi/",
+      "icons": [{ "src": "/rozgar-sathi/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Resume Banao",
+      "short_name": "Resume",
+      "description": "Free resume builder",
+      "url": "/rozgar-sathi/resume",
+      "icons": [{ "src": "/rozgar-sathi/icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ]
+}
