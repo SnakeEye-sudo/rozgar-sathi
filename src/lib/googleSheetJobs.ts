@@ -56,6 +56,18 @@ const normalizeText = (value: unknown) => String(value ?? '').trim();
 
 const splitPipeList = (value: string) => value.split('|').map(item => item.trim()).filter(Boolean);
 
+const keywordCategoryMap: Array<{ keywords: string[]; category: JobCategory }> = [
+  { keywords: ['railway', 'rrb', 'loco'], category: 'railway' },
+  { keywords: ['ssc', 'constable', 'chsl', 'cgl'], category: 'ssc' },
+  { keywords: ['bank', 'ibps', 'sbi', 'clerk', 'po'], category: 'banking' },
+  { keywords: ['upsc', 'civil services', 'ifos'], category: 'upsc' },
+  { keywords: ['bpsc'], category: 'bpsc' },
+  { keywords: ['army', 'air force', 'navy', 'agniveer', 'defence', 'drdo'], category: 'defence' },
+  { keywords: ['teacher', 'teaching', 'faculty'], category: 'teaching' },
+  { keywords: ['police'], category: 'police' },
+  { keywords: ['psc', 'public service commission'], category: 'state_psc' },
+];
+
 const slugify = (value: string) =>
   value
     .toLowerCase()
@@ -68,6 +80,19 @@ const getValidatedCategory = (value: string): JobCategory =>
 
 const getValidatedStatus = (value: string): JobStatus =>
   JOB_STATUSES.includes(value as JobStatus) ? (value as JobStatus) : 'active';
+
+const inferCategory = (...values: string[]): JobCategory => {
+  const haystack = values.join(' ').toLowerCase();
+  const match = keywordCategoryMap.find(entry => entry.keywords.some(keyword => haystack.includes(keyword)));
+  return match?.category ?? 'other';
+};
+
+const cleanLinkValue = (value: string) => {
+  if (!value || value === '[URL]' || value === 'url') {
+    return '';
+  }
+  return value;
+};
 
 const loadGoogleSheet = async (): Promise<GoogleSheetResponse> => {
   if (typeof window === 'undefined' || !document.body) {
@@ -147,16 +172,19 @@ const getNumber = (record: Record<string, string | number>, ...keys: string[]) =
 };
 
 const mapRecordToJob = (record: Record<string, string | number>): Job | null => {
-  const title = getString(record, 'title');
+  const title = getString(record, 'title', 'postName', 'post_name');
   const titleHi = getString(record, 'titleHi', 'title_hi') || title;
 
   if (!title && !titleHi) {
     return null;
   }
 
-  const organization = getString(record, 'organization');
+  const organization = getString(record, 'organization', 'departmentOrganization', 'department_organization');
   const organizationHi = getString(record, 'organizationHi', 'organization_hi') || organization;
-  const category = getValidatedCategory(getString(record, 'category'));
+  const categoryRaw = getString(record, 'category');
+  const category = categoryRaw
+    ? getValidatedCategory(categoryRaw)
+    : inferCategory(organization, title);
   const status = getValidatedStatus(getString(record, 'status'));
   const selectionProcess = splitPipeList(getString(record, 'selectionProcess', 'selection_process'));
   const selectionProcessHi = splitPipeList(getString(record, 'selectionProcessHi', 'selection_process_hi'));
@@ -164,6 +192,11 @@ const mapRecordToJob = (record: Record<string, string | number>): Job | null => 
   const resultDate = getString(record, 'resultDate', 'result_date');
   const syllabus = getString(record, 'syllabus');
   const syllabusHi = getString(record, 'syllabusHi', 'syllabus_hi');
+  const qualification = getString(record, 'education', 'qualification');
+  const totalPosts = getNumber(record, 'totalPosts', 'total_posts', 'totalVacancies', 'total_vacancies');
+  const applyEnd = getString(record, 'applyEnd', 'apply_end', 'lastDateToApply', 'last_date_to_apply');
+  const applyLink = cleanLinkValue(getString(record, 'applyLink', 'apply_link', 'applicationLink', 'application_link'));
+  const defaultTags = [organization, title, category].map(value => value.toLowerCase()).filter(Boolean);
 
   return {
     id: getString(record, 'id') || slugify(title || titleHi),
@@ -172,10 +205,10 @@ const mapRecordToJob = (record: Record<string, string | number>): Job | null => 
     organization,
     organizationHi,
     category,
-    totalPosts: getNumber(record, 'totalPosts', 'total_posts'),
+    totalPosts,
     eligibility: {
-      education: getString(record, 'education'),
-      educationHi: getString(record, 'educationHi', 'education_hi') || getString(record, 'education'),
+      education: qualification,
+      educationHi: getString(record, 'educationHi', 'education_hi') || qualification,
       age: getString(record, 'age'),
       ageHi: getString(record, 'ageHi', 'age_hi') || getString(record, 'age'),
     },
@@ -188,22 +221,22 @@ const mapRecordToJob = (record: Record<string, string | number>): Job | null => 
     importantDates: {
       notificationDate: getString(record, 'notificationDate', 'notification_date'),
       applyStart: getString(record, 'applyStart', 'apply_start'),
-      applyEnd: getString(record, 'applyEnd', 'apply_end'),
+      applyEnd,
       examDate: getString(record, 'examDate', 'exam_date'),
       ...(resultDate ? { resultDate } : {}),
     },
     salary: getString(record, 'salary'),
     salaryHi: getString(record, 'salaryHi', 'salary_hi') || getString(record, 'salary'),
-    applyLink: getString(record, 'applyLink', 'apply_link'),
-    notificationLink: getString(record, 'notificationLink', 'notification_link'),
+    applyLink,
+    notificationLink: cleanLinkValue(getString(record, 'notificationLink', 'notification_link')) || applyLink,
     status,
-    tags,
-    description: getString(record, 'description'),
-    descriptionHi: getString(record, 'descriptionHi', 'description_hi') || getString(record, 'description'),
+    tags: tags.length > 0 ? tags : Array.from(new Set(defaultTags)),
+    description: getString(record, 'description') || `${title} recruitment by ${organization}.`,
+    descriptionHi: getString(record, 'descriptionHi', 'description_hi') || getString(record, 'description') || `${titleHi || title} recruitment.`,
     ...(syllabus ? { syllabus } : {}),
     ...(syllabusHi ? { syllabusHi } : {}),
-    selectionProcess,
-    selectionProcessHi: selectionProcessHi.length > 0 ? selectionProcessHi : selectionProcess,
+    selectionProcess: selectionProcess.length > 0 ? selectionProcess : ['Application Review'],
+    selectionProcessHi: selectionProcessHi.length > 0 ? selectionProcessHi : (selectionProcess.length > 0 ? selectionProcess : ['Application Review']),
   };
 };
 
