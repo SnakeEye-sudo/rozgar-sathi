@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLang } from '../context/LanguageContext';
@@ -9,12 +9,13 @@ export default function AppHeader() {
   const { user, signInWithGoogle, logout } = useAuth();
   const { lang, toggleLang, t } = useLang();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
-    { to: '/', label: t('Jobs', 'à¤¨à¥Œà¤•à¤°à¤¿à¤¯à¤¾à¤‚') },
-    { to: '/resume', label: t('Resume Builder', 'à¤°à¤¿à¤œà¥à¤¯à¥‚à¤®à¥‡ à¤¬à¤¨à¤¾à¤à¤‚') },
-    { to: '/tracker', label: t('My Applications', 'à¤®à¥‡à¤°à¥‡ à¤†à¤µà¥‡à¤¦à¤¨') },
-    { to: '/about', label: t('About', 'à¤¹à¤®à¤¾à¤°à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚') },
+    { to: '/', label: t('Jobs', 'नौकरियां') },
+    { to: '/resume', label: t('Resume Builder', 'रिज्यूमे बनाएं') },
+    { to: '/tracker', label: t('My Applications', 'मेरे आवेदन') },
+    { to: '/about', label: t('About', 'हमारे बारे में') },
   ];
 
   const isActive = (path: string) =>
@@ -31,7 +32,7 @@ export default function AppHeader() {
                 alt="Rozgar Sathi Logo"
                 className="w-8 h-8 rounded-lg"
               />
-              <span className="text-saffron-500 font-hindi">à¤°à¥‹à¤œà¤¼à¤—à¤¾à¤°</span>
+              <span className="text-saffron-500 font-hindi">रोज़गार</span>
               <span className="text-primary-600">Sathi</span>
             </Link>
             <a
@@ -64,7 +65,7 @@ export default function AppHeader() {
               rel="noopener noreferrer"
               className="px-3 py-2 rounded-lg text-sm font-medium transition-colors font-hindi text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
             >
-              {t('Family Hub', 'à¤«à¥ˆà¤®à¤¿à¤²à¥€ à¤¹à¤¬')}
+              {t('Family Hub', 'फैमिली हब')}
             </a>
           </nav>
 
@@ -74,7 +75,7 @@ export default function AppHeader() {
               className="px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-hindi"
               title="Switch Language"
             >
-              {lang === 'hi' ? 'EN' : 'à¤¹à¤¿'}
+              {lang === 'hi' ? 'EN' : 'हि'}
             </button>
 
             {user ? (
@@ -88,7 +89,7 @@ export default function AppHeader() {
                   onClick={logout}
                   className="hidden sm:block text-sm text-gray-500 hover:text-red-500 transition-colors"
                 >
-                  {t('Logout', 'à¤²à¥‰à¤—à¤†à¤‰à¤Ÿ')}
+                  {t('Logout', 'लॉगआउट')}
                 </button>
               </div>
             ) : (
@@ -102,11 +103,58 @@ export default function AppHeader() {
                   <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                 </svg>
-                {t('Login', 'à¤²à¥‰à¤—à¤¿à¤¨')}
+                {t('Login', 'लॉगिन')}
+              </button>
+            )}
+
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {menuOpen
+                  ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                }
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {menuOpen && (
+          <div className="md:hidden border-t border-gray-200 dark:border-gray-700 py-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                onClick={() => setMenuOpen(false)}
+                className={`block px-4 py-2.5 text-sm font-medium font-hindi transition-colors ${
+                  isActive(link.to)
+                    ? 'text-primary-700 bg-primary-50 dark:bg-primary-900 dark:text-primary-300'
+                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href={FAMILY_HUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block px-4 py-2.5 text-sm font-medium font-hindi transition-colors text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              {t('Family Hub', 'फैमिली हब')}
+            </a>
+            {user && (
+              <button
+                onClick={() => { logout(); setMenuOpen(false); }}
+                className="block w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50"
+              >
+                {t('Logout', 'लॉगआउट')}
               </button>
             )}
           </div>
-        </div>
+        )}
       </div>
     </header>
   );
