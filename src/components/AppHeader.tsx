@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLang } from '../context/LanguageContext';
 
+const FAMILY_HUB_URL = 'https://snakeeye-sudo.github.io/Aapka-Sathi/';
+
 export default function AppHeader() {
   const { user, signInWithGoogle, logout } = useAuth();
   const { lang, toggleLang, t } = useLang();
@@ -22,21 +24,29 @@ export default function AppHeader() {
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 font-bold text-xl">
-            <img
-              src="/rozgar-sathi/logo.svg"
-              alt="Rozgar Sathi Logo"
-              className="w-8 h-8 rounded-lg"
-            />
-            <span className="text-saffron-500 font-hindi">रोज़गार</span>
-            <span className="text-primary-600">Sathi</span>
-          </Link>
+        <div className="flex items-center justify-between h-16 gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <Link to="/" className="flex items-center gap-2 font-bold text-xl min-w-0">
+              <img
+                src="/rozgar-sathi/logo.svg"
+                alt="Rozgar Sathi Logo"
+                className="w-8 h-8 rounded-lg"
+              />
+              <span className="text-saffron-500 font-hindi">रोज़गार</span>
+              <span className="text-primary-600">Sathi</span>
+            </Link>
+            <a
+              href={FAMILY_HUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:inline-flex items-center rounded-full border border-orange-300/70 dark:border-orange-400/30 bg-orange-50 dark:bg-orange-500/10 px-3 py-1 text-xs font-semibold text-orange-700 dark:text-orange-300"
+            >
+              Part of Aapka-Sathi Family
+            </a>
+          </div>
 
-          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map(link => (
+            {navLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
@@ -49,11 +59,17 @@ export default function AppHeader() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href={FAMILY_HUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-lg text-sm font-medium transition-colors font-hindi text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              {t('Family Hub', 'फैमिली हब')}
+            </a>
           </nav>
 
-          {/* Right side */}
           <div className="flex items-center gap-2">
-            {/* Language toggle */}
             <button
               onClick={toggleLang}
               className="px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-hindi"
@@ -62,7 +78,6 @@ export default function AppHeader() {
               {lang === 'hi' ? 'EN' : 'हि'}
             </button>
 
-            {/* Auth */}
             {user ? (
               <div className="flex items-center gap-2">
                 <img
@@ -92,7 +107,6 @@ export default function AppHeader() {
               </button>
             )}
 
-            {/* Mobile menu button */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -107,10 +121,9 @@ export default function AppHeader() {
           </div>
         </div>
 
-        {/* Mobile Nav */}
         {menuOpen && (
           <div className="md:hidden border-t border-gray-200 dark:border-gray-700 py-2">
-            {navLinks.map(link => (
+            {navLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
@@ -124,6 +137,14 @@ export default function AppHeader() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href={FAMILY_HUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block px-4 py-2.5 text-sm font-medium font-hindi transition-colors text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              {t('Family Hub', 'फैमिली हब')}
+            </a>
             {user && (
               <button
                 onClick={() => { logout(); setMenuOpen(false); }}
