@@ -19,7 +19,7 @@ export default function Index() {
           <div className="mt-8 grid gap-4 sm:grid-cols-3 text-left">
             {[
               'A cleaner and more reliable experience is being prepared.',
-              'Content, workflows, and publishing details will be added in the next phase.',
+              'Content and release details will be shared in the next phase.',
               'The full live version will be announced here very soon.',
             ].map((item) => (
               <div
