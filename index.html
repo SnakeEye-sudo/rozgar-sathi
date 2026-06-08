@@ -1,428 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0a1a0f">
-<meta name="description" content="Rozgar Sathi – Government jobs tracker, resume tips, exam alerts">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>Rozgar Sathi 💼</title>
-<link rel="manifest" href="manifest.json">
-<style>
-  :root {
-    --bg: #0a1510; --surface: #0f2015; --surface2: #163020;
-    --border: rgba(52,211,153,0.2); --accent: #34d399; --accent2: #6ee7b7;
-    --text: #d1fae5; --muted: #3d8060;
-    --font: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-  [data-theme="light"] { --bg: #ecfdf5; --surface: #fff; --surface2: #d1fae5; --text: #064e3b; --muted: #6b7280; }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; overflow: hidden; }
-  body { font-family: var(--font); background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 10px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  .topbar-brand { display: flex; align-items: center; gap: 10px; }
-  .topbar-title { font-size: 18px; font-weight: 700; }
-  .topbar-sub { font-size: 11px; color: var(--muted); }
-  .icon-btn { width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .main { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 80px; }
-  .view { display: none; } .view.active { display: block; }
-  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-around; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 12px; cursor: pointer; border: none; background: none; color: var(--muted); font-family: var(--font); transition: color 0.2s; }
-  .nav-item.active { color: var(--accent); }
-  .nav-item span { font-size: 10px; font-weight: 600; }
-  .nav-item svg { width: 22px; height: 22px; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  /* FILTER BAR */
-  .filter-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
-  .filter-bar::-webkit-scrollbar { display: none; }
-  .filter-chip { padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--bg); color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: var(--font); flex-shrink: 0; transition: all 0.2s; }
-  .filter-chip.active { background: var(--accent); color: #0a1510; border-color: var(--accent); }
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/rozgar-sathi/favicon.png" />
+    <link rel="apple-touch-icon" href="/rozgar-sathi/logo.png" />
 
-  /* SEARCH */
-  .search-wrap { padding: 12px 16px; }
-  .search-input { width: 100%; padding: 12px 16px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text); font-size: 14px; font-family: var(--font); outline: none; }
-  .search-input:focus { border-color: var(--accent); }
-  .search-input::placeholder { color: var(--muted); }
+    <!-- PWA -->
+    <link rel="manifest" href="/rozgar-sathi/manifest.json" />
+    <meta name="theme-color" content="#1d4ed8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rozgar Sathi" />
+    <meta name="application-name" content="Rozgar Sathi" />
+    <meta name="msapplication-TileColor" content="#1d4ed8" />
 
-  /* JOB CARDS */
-  .jobs-list { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; }
-  .job-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 16px; }
-  .job-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
-  .job-org-icon { font-size: 28px; flex-shrink: 0; }
-  .job-title { font-size: 15px; font-weight: 800; color: var(--accent2); flex: 1; line-height: 1.3; }
-  .job-org { font-size: 12px; color: var(--muted); margin-top: 3px; }
-  .job-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
-  .badge-open { background: rgba(52,211,153,0.15); color: var(--accent); }
-  .badge-closing { background: rgba(251,191,36,0.15); color: #fbbf24; }
-  .badge-closed { background: rgba(156,163,175,0.1); color: var(--muted); }
-  .job-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-  .meta-chip { padding: 4px 10px; border-radius: 12px; background: var(--surface2); font-size: 11px; font-weight: 600; color: var(--muted); }
-  .meta-chip.highlight { color: var(--accent); background: rgba(52,211,153,0.08); }
-  .job-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-  .tag { padding: 3px 8px; border-radius: 8px; background: var(--surface2); font-size: 10px; color: var(--muted); font-weight: 600; }
-  .job-footer { display: flex; align-items: center; justify-content: space-between; }
-  .deadline { font-size: 12px; font-weight: 700; }
-  .deadline.urgent { color: #f87171; }
-  .deadline.soon { color: #fbbf24; }
-  .deadline.ok { color: var(--accent); }
-  .apply-btn { padding: 8px 16px; border-radius: 12px; border: none; background: var(--accent); color: #0a1510; font-size: 13px; font-weight: 700; cursor: pointer; font-family: var(--font); }
-  .save-btn { background: none; border: 1.5px solid var(--border); color: var(--muted); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-size: 13px; }
+    <!-- SEO -->
+    <meta name="description" content="Rozgar Sathi - Sarkari Naukri One Stop Shop. UPSC, BPSC, SSC, Railway, Banking vacancies with eligibility, fees, dates & apply links. Free resume builder." />
+    <meta name="keywords" content="sarkari naukri, government jobs, UPSC jobs, BPSC jobs, SSC jobs, Railway jobs, Banking jobs, resume builder, job tracker, rozgar" />
+    <meta name="author" content="Er. Sangam Krishna" />
+    <meta property="og:title" content="Rozgar Sathi - Sarkari Naukri One Stop Shop" />
+    <meta property="og:description" content="Sarkari vacancies, eligibility, fees, form links - sab kuch ek jagah. Free resume builder bhi." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://snakeeye-sudo.github.io/rozgar-sathi/" />
+    <meta property="og:image" content="https://snakeeye-sudo.github.io/rozgar-sathi/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://snakeeye-sudo.github.io/rozgar-sathi/" />
 
-  /* SECTION HEADERS */
-  .section-header { font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 14px 16px 6px; }
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  /* TRACKER */
-  .tracker-wrap { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-  .tracker-btn { width: 100%; padding: 14px; border-radius: 14px; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); font-size: 15px; font-weight: 700; cursor: pointer; font-family: var(--font); display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .track-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 16px; }
-  .track-header { display: flex; justify-content: space-between; align-items: flex-start; }
-  .track-title { font-size: 15px; font-weight: 700; color: var(--accent2); }
-  .track-org { font-size: 12px; color: var(--muted); margin-top: 3px; }
-  .track-status { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-  .status-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .status-step { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 10px; }
-  .step-done { background: rgba(52,211,153,0.15); color: var(--accent); }
-  .step-current { background: rgba(251,191,36,0.15); color: #fbbf24; }
-  .step-pending { background: var(--surface2); color: var(--muted); }
-  .del-btn { color: #f87171; background: none; border: none; cursor: pointer; font-size: 16px; padding: 4px; }
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 
-  /* MODAL */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: flex-end; }
-  .modal-overlay.show { display: flex; }
-  .modal { background: var(--surface); border-radius: 24px 24px 0 0; padding: 24px 20px; width: 100%; max-height: 80vh; overflow-y: auto; }
-  .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
-  .form-field { margin-bottom: 12px; }
-  .form-label { font-size: 12px; color: var(--muted); font-weight: 700; margin-bottom: 6px; display: block; }
-  .form-input { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface2); color: var(--text); font-size: 14px; font-family: var(--font); outline: none; }
-  .form-input:focus { border-color: var(--accent); }
-  .form-select { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface2); color: var(--text); font-size: 14px; font-family: var(--font); outline: none; cursor: pointer; }
-  .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
-  .modal-cancel { flex: 1; padding: 14px; border-radius: 14px; border: 1.5px solid var(--border); background: none; color: var(--muted); font-size: 14px; font-weight: 700; cursor: pointer; font-family: var(--font); }
-  .modal-save { flex: 2; padding: 14px; border-radius: 14px; border: none; background: var(--accent); color: #0a1510; font-size: 14px; font-weight: 800; cursor: pointer; font-family: var(--font); }
-
-  /* TIPS */
-  .tip-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 18px; margin: 0 16px 10px; }
-  .tip-num { font-size: 24px; font-weight: 900; color: var(--accent); margin-bottom: 8px; }
-  .tip-title { font-size: 15px; font-weight: 800; color: var(--accent2); margin-bottom: 6px; }
-  .tip-body { font-size: 13px; color: var(--muted); line-height: 1.7; }
-</style>
-</head>
-<body data-theme="dark">
-<div class="topbar">
-  <div class="topbar-brand">
-    <span style="font-size:22px">💼</span>
-    <div>
-      <div class="topbar-title">Rozgar Sathi</div>
-      <div class="topbar-sub">Sarkari Naukri • Tracker • Tips</div>
-    </div>
-  </div>
-  <button class="icon-btn" id="themeBtn">🌙</button>
-</div>
-
-<div class="main">
-
-  <!-- JOBS VIEW -->
-  <div class="view active" id="view-jobs">
-    <div class="filter-bar" id="filterBar"></div>
-    <div class="search-wrap">
-      <input class="search-input" id="searchInput" placeholder="🔍 Job dhundho... (SSC, UPSC, Bank...)" oninput="filterJobs()">
-    </div>
-    <div class="jobs-list" id="jobsList"></div>
-  </div>
-
-  <!-- TRACKER VIEW -->
-  <div class="view" id="view-tracker">
-    <div class="tracker-wrap">
-      <button class="tracker-btn" onclick="showModal()">+ Nayi Application Add Karo</button>
-      <div id="trackList"></div>
-    </div>
-  </div>
-
-  <!-- TIPS VIEW -->
-  <div class="view" id="view-tips">
-    <div class="section-header" style="padding-top:16px">📋 Resume Tips</div>
-    <div id="tipsList"></div>
-    <div class="section-header">🌐 Sarkari Naukri Websites</div>
-    <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:10px" id="siteList"></div>
-  </div>
-
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-title">📋 Application Add Karo</div>
-    <div class="form-field"><label class="form-label">Job Title *</label><input class="form-input" id="mTitle" placeholder="e.g. SSC CGL 2024"></div>
-    <div class="form-field"><label class="form-label">Organization *</label><input class="form-input" id="mOrg" placeholder="e.g. Staff Selection Commission"></div>
-    <div class="form-field"><label class="form-label">Last Date</label><input class="form-input" id="mDate" type="date"></div>
-    <div class="form-field"><label class="form-label">Current Status</label>
-      <select class="form-select" id="mStatus">
-        <option value="0">📝 Applied</option>
-        <option value="1">📄 Admit Card</option>
-        <option value="2">📝 Exam</option>
-        <option value="3">✅ Result</option>
-        <option value="4">🎯 Interview</option>
-        <option value="5">🏆 Selected</option>
-      </select>
-    </div>
-    <div class="form-field"><label class="form-label">Notes</label><input class="form-input" id="mNotes" placeholder="Koi note..."></div>
-    <div class="modal-btns">
-      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
-      <button class="modal-save" onclick="saveTrack()">Save Karo ✓</button>
-    </div>
-  </div>
-</div>
-
-<nav class="bottom-nav">
-  <button class="nav-item active" data-view="jobs">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
-    <span>Naukri</span>
-  </button>
-  <button class="nav-item" data-view="tracker">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-    <span>Tracker</span>
-  </button>
-  <button class="nav-item" data-view="tips">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    <span>Tips</span>
-  </button>
-</nav>
-
-<script>
-// ====== STATIC JOB DATA (curated, realistic) ======
-const JOBS_DATA = [
-  { id:1, icon:'🏛️', title:'SSC CGL 2024-25', org:'Staff Selection Commission', cat:'SSC', posts:'17,727', salary:'₹25,500–81,100', lastDate:'2025-08-15', notify:'2025-09-01', exam:'Nov 2025', level:'Graduate', tags:['Multi-Post','All India'], link:'https://ssc.nic.in', status:'open' },
-  { id:2, icon:'🏦', title:'IBPS PO 2025', org:'Institute of Banking Personnel Selection', cat:'Banking', posts:'5,208', salary:'₹41,960–51,490', lastDate:'2025-09-10', notify:'2025-10-01', exam:'Oct 2025', level:'Graduate', tags:['Banking','English'], link:'https://ibps.in', status:'open' },
-  { id:3, icon:'🚂', title:'RRB NTPC 2025', org:'Railway Recruitment Board', cat:'Railway', posts:'11,558', salary:'₹19,900–29,200', lastDate:'2025-08-30', notify:'2025-11-01', exam:'Jan 2026', level:'10th/12th/Graduate', tags:['Railway','Multi-State'], link:'https://indianrailways.gov.in', status:'open' },
-  { id:4, icon:'🎖️', title:'UPSC Civil Services 2025', org:'Union Public Service Commission', cat:'UPSC', posts:'1,056', salary:'₹56,100+', lastDate:'2025-04-25', notify:'2025-05-25', exam:'Jun 2025', level:'Graduate', tags:['IAS','IPS','IFS'], link:'https://upsc.gov.in', status:'closed' },
-  { id:5, icon:'🏥', title:'AIIMS Nursing Officer 2025', org:'All India Institute of Medical Sciences', cat:'Health', posts:'3,520', salary:'₹47,600–1,51,100', lastDate:'2025-09-20', notify:'2025-10-15', exam:'Dec 2025', level:'B.Sc Nursing', tags:['Medical','Nursing'], link:'https://aiims.edu', status:'open' },
-  { id:6, icon:'🎓', title:'TET/CTET 2025', org:'Central Board of Secondary Education', cat:'Teaching', posts:'Unlimited', salary:'₹9,300–34,800', lastDate:'2025-10-05', notify:'2025-11-01', exam:'Dec 2025', level:'B.Ed/D.El.Ed', tags:['Teaching','Primary'], link:'https://cbse.gov.in', status:'open' },
-  { id:7, icon:'🔬', title:'CSIR UGC NET 2025', org:'Council of Scientific & Industrial Research', cat:'Education', posts:'Vary', salary:'₹31,000+', lastDate:'2025-09-15', notify:'2025-10-10', exam:'Nov 2025', level:'Post Graduate', tags:['Research','Lecturership'], link:'https://csirnet.nta.nic.in', status:'open' },
-  { id:8, icon:'🚓', title:'Delhi Police Constable 2025', org:'Ministry of Home Affairs', cat:'Police', posts:'5,000+', salary:'₹21,700–69,100', lastDate:'2025-10-20', notify:'2025-11-15', exam:'Feb 2026', level:'10+2', tags:['Police','Physical'], link:'https://delhipolice.gov.in', status:'open' },
-  { id:9, icon:'🏦', title:'SBI PO 2025', org:'State Bank of India', cat:'Banking', posts:'600', salary:'₹41,960–51,490', lastDate:'2025-09-30', notify:'2025-10-20', exam:'Nov 2025', level:'Graduate', tags:['Bank','PO'], link:'https://sbi.co.in', status:'open' },
-  { id:10, icon:'⚔️', title:'Indian Army Agniveer 2025', org:'Indian Army', cat:'Defence', posts:'40,000+', salary:'₹30,000–40,000', lastDate:'Ongoing', notify:'Rolling', exam:'Rolling', level:'10th/12th', tags:['Army','Physical'], link:'https://joinindianarmy.nic.in', status:'open' },
-  { id:11, icon:'✈️', title:'IAF Agniveer Vayu 2025', org:'Indian Air Force', cat:'Defence', posts:'2,800', salary:'₹30,000+', lastDate:'2025-09-25', notify:'2025-10-20', exam:'Dec 2025', level:'10+2 PCM', tags:['Airforce','Technical'], link:'https://airmenselection.cdac.in', status:'open' },
-  { id:12, icon:'🏛️', title:'SSC CHSL 2025', org:'Staff Selection Commission', cat:'SSC', posts:'3,712', salary:'₹19,900–63,200', lastDate:'2025-10-10', notify:'2025-11-05', exam:'Jan 2026', level:'10+2', tags:['LDC','DEO'], link:'https://ssc.nic.in', status:'open' },
-];
-
-const CATS = ['All', 'SSC', 'Banking', 'Railway', 'UPSC', 'Teaching', 'Defence', 'Health', 'Police', 'Education'];
-let selectedCat = 'All';
-let searchQ = '';
-
-document.getElementById('filterBar').innerHTML = CATS.map(c =>
-  `<button class="filter-chip ${c==='All'?'active':''}" onclick="setCat('${c}')">${c}</button>`
-).join('');
-
-function setCat(c) {
-  selectedCat = c;
-  document.querySelectorAll('.filter-chip').forEach((el, i) => el.classList.toggle('active', CATS[i] === c));
-  filterJobs();
-}
-
-function filterJobs() {
-  searchQ = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = JOBS_DATA.filter(j => {
-    const matchCat = selectedCat === 'All' || j.cat === selectedCat;
-    const matchQ = !searchQ || j.title.toLowerCase().includes(searchQ) || j.org.toLowerCase().includes(searchQ) || j.tags.some(t => t.toLowerCase().includes(searchQ));
-    return matchCat && matchQ;
-  });
-  renderJobs(filtered);
-}
-
-function daysLeft(dateStr) {
-  if (dateStr === 'Ongoing' || dateStr === 'Rolling') return 9999;
-  const d = new Date(dateStr);
-  return Math.ceil((d - new Date()) / 86400000);
-}
-
-function deadlineClass(days) {
-  if (days <= 7) return 'urgent';
-  if (days <= 30) return 'soon';
-  return 'ok';
-}
-
-function deadlineText(dateStr) {
-  if (dateStr === 'Ongoing' || dateStr === 'Rolling') return '🔄 ' + dateStr;
-  const days = daysLeft(dateStr);
-  if (days < 0) return '❌ Closed';
-  if (days === 0) return '⚠️ Aaj Last Date!';
-  if (days <= 7) return `⚠️ ${days} din bacha!`;
-  return `📅 ${days} din bacha`;
-}
-
-function renderJobs(jobs) {
-  if (!jobs.length) {
-    document.getElementById('jobsList').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">Koi job nahi mili. Search badlo.</div>';
-    return;
-  }
-  document.getElementById('jobsList').innerHTML = jobs.map(j => {
-    const days = daysLeft(j.lastDate);
-    const dc = deadlineClass(days);
-    const statusClass = j.status === 'open' ? 'badge-open' : 'badge-closed';
-    const statusText = j.status === 'open' ? '🟢 Open' : '🔴 Closed';
-    return `
-      <div class="job-card">
-        <div class="job-header">
-          <div class="job-org-icon">${j.icon}</div>
-          <div style="flex:1">
-            <div class="job-title">${j.title}</div>
-            <div class="job-org">${j.org}</div>
-          </div>
-          <div class="job-badge ${statusClass}">${statusText}</div>
-        </div>
-        <div class="job-meta">
-          <div class="meta-chip highlight">📋 ${j.posts} posts</div>
-          <div class="meta-chip">💰 ${j.salary}</div>
-          <div class="meta-chip">🎓 ${j.level}</div>
-          <div class="meta-chip">📝 Exam: ${j.exam}</div>
-        </div>
-        <div class="job-tags">${j.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-        <div class="job-footer">
-          <div class="deadline ${dc}">${deadlineText(j.lastDate)}</div>
-          <div style="display:flex;gap:8px">
-            <button class="save-btn" onclick="saveJob(${j.id})">🔖</button>
-            <a href="${j.link}" target="_blank" rel="noopener"><button class="apply-btn">Apply →</button></a>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
-}
-
-function saveJob(id) {
-  const j = JOBS_DATA.find(x => x.id === id);
-  let saved = JSON.parse(localStorage.getItem('rozgar-saved') || '[]');
-  if (!saved.find(x => x.id === id)) { saved.push(j); localStorage.setItem('rozgar-saved', JSON.stringify(saved)); }
-  alert('✅ Job saved! Tracker mein add karo.');
-}
-
-filterJobs();
-
-// ====== TRACKER ======
-let tracks = JSON.parse(localStorage.getItem('rozgar-tracks') || '[]');
-const STEPS = ['Applied', 'Admit Card', 'Exam', 'Result', 'Interview', 'Selected'];
-
-function renderTracks() {
-  const el = document.getElementById('trackList');
-  if (!tracks.length) {
-    el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">Abhi koi application track nahi ho raha.<br>Upar wala button dabao add karne ke liye.</div>';
-    return;
-  }
-  el.innerHTML = tracks.map((t, i) => `
-    <div class="track-card" style="margin-bottom:10px">
-      <div class="track-header">
-        <div>
-          <div class="track-title">${t.title}</div>
-          <div class="track-org">${t.org} ${t.deadline ? '• Last: ' + t.deadline : ''}</div>
-        </div>
-        <button class="del-btn" onclick="deleteTrack(${i})">🗑️</button>
-      </div>
-      <div class="track-status">
-        ${STEPS.map((s, si) => {
-          const cls = si < t.status ? 'step-done' : si === t.status ? 'step-current' : 'step-pending';
-          const icon = si < t.status ? '✅' : si === t.status ? '▶️' : '⬜';
-          return `<div class="status-step ${cls}">${icon} ${s}</div>`;
-        }).join('')}
-      </div>
-      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-        ${t.status < STEPS.length - 1 ? `<button style="padding:6px 12px;border-radius:10px;border:none;background:var(--accent);color:#0a1510;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font)" onclick="nextStep(${i})">Next Step ›</button>` : '<span style="color:var(--accent);font-size:12px;font-weight:700">🏆 Selected!</span>'}
-        ${t.notes ? `<div style="font-size:12px;color:var(--muted);align-self:center">${t.notes}</div>` : ''}
-      </div>
-    </div>
-  `).join('');
-}
-
-function nextStep(i) {
-  if (tracks[i].status < STEPS.length - 1) { tracks[i].status++; }
-  localStorage.setItem('rozgar-tracks', JSON.stringify(tracks));
-  renderTracks();
-}
-
-function deleteTrack(i) {
-  tracks.splice(i, 1);
-  localStorage.setItem('rozgar-tracks', JSON.stringify(tracks));
-  renderTracks();
-}
-
-function showModal() { document.getElementById('modalOverlay').classList.add('show'); }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
-
-function saveTrack() {
-  const t = {
-    title: document.getElementById('mTitle').value.trim(),
-    org: document.getElementById('mOrg').value.trim(),
-    deadline: document.getElementById('mDate').value,
-    status: parseInt(document.getElementById('mStatus').value),
-    notes: document.getElementById('mNotes').value.trim(),
-  };
-  if (!t.title || !t.org) { alert('Title aur Organization required hai!'); return; }
-  tracks.unshift(t);
-  localStorage.setItem('rozgar-tracks', JSON.stringify(tracks));
-  closeModal();
-  renderTracks();
-  ['mTitle','mOrg','mDate','mNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('mStatus').value = '0';
-}
-
-renderTracks();
-
-// ====== TIPS ======
-const TIPS = [
-  { num:'01', title:'Ek Page Resume', body:'Sarkari naukri ke liye resume ek page se zyada nahi hona chahiye. HR ke paas bahut applications aati hain – seedha, saaf aur concise rakho.' },
-  { num:'02', title:'Objective Section Mat Likho', body:'"Seeking a position..." jaisi lines skip karo. Seedha Education, Skills aur Experience likho. Objective outdated hai.' },
-  { num:'03', title:'Keywords Use Karo', body:'Job description ke exact keywords apne resume mein use karo. "Communication skills" ki jagah "English/Hindi bilingual" likho.' },
-  { num:'04', title:'Quantify Your Achievements', body:'"Padhai ki" ki jagah "Board exam mein 92% score kiya, school mein 3rd rank" likho. Numbers proof dete hain.' },
-  { num:'05', title:'Photo & Format', body:'Sarkari jobs ke liye passport size photo zaroori hoti hai. Arial ya Times New Roman 11-12pt font use karo. PDF format mein submit karo.' },
-  { num:'06', title:'Documents Ready Rakho', body:'Aadhar, Pan, 10th/12th marksheet, graduation, caste certificate – sabki scanned copies ek folder mein rakho. Apply karte time jaldi milti hain.' },
-  { num:'07', title:'Multiple Job Alerts Set Karo', body:'Employment News, Sarkari Result, aur official websites ki email alerts subscribe karo. Deadline miss mat karo.' },
-  { num:'08', title:'Mock Tests Dete Raho', body:'Online free mock tests dete raho – Testbook, Unacademy, Adda247 pe milte hain. Pattern aur speed donon improve hoti hai.' },
-];
-
-document.getElementById('tipsList').innerHTML = TIPS.map(t =>
-  `<div class="tip-card"><div class="tip-num">#${t.num}</div><div class="tip-title">${t.title}</div><div class="tip-body">${t.body}</div></div>`
-).join('');
-
-const SITES = [
-  { name:'SSC Official', url:'https://ssc.nic.in', icon:'🏛️', desc:'SSC CGL, CHSL, MTS, GD' },
-  { name:'UPSC Official', url:'https://upsc.gov.in', icon:'🎖️', desc:'IAS, IPS, IFS, NDA' },
-  { name:'IBPS Official', url:'https://ibps.in', icon:'🏦', desc:'Bank PO, Clerk, RRB' },
-  { name:'Employment News', url:'https://www.employmentnews.gov.in', icon:'📰', desc:'Sarkari Weekly Newsletter' },
-  { name:'NTA Official', url:'https://nta.ac.in', icon:'📚', desc:'NEET, JEE, UGC NET' },
-  { name:'Indian Railway', url:'https://indianrailways.gov.in', icon:'🚂', desc:'RRB, NTPC, Group D' },
-];
-
-document.getElementById('siteList').innerHTML = SITES.map(s =>
-  `<div style="background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px">
-    <div style="font-size:26px">${s.icon}</div>
-    <div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--accent2)">${s.name}</div><div style="font-size:12px;color:var(--muted)">${s.desc}</div></div>
-    <a href="${s.url}" target="_blank" rel="noopener" style="padding:8px 14px;border-radius:10px;background:var(--accent);color:#0a1510;font-size:12px;font-weight:700;text-decoration:none">Visit</a>
-  </div>`
-).join('');
-
-// NAV
-document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    item.classList.add('active');
-    document.getElementById('view-' + item.dataset.view).classList.add('active');
-  });
-});
-
-// THEME
-const t0 = localStorage.getItem('rozgar-theme') || 'dark';
-document.body.dataset.theme = t0;
-document.getElementById('themeBtn').textContent = t0 === 'dark' ? '🌙' : '☀️';
-document.getElementById('themeBtn').addEventListener('click', () => {
-  const t = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-  document.body.dataset.theme = t;
-  document.getElementById('themeBtn').textContent = t === 'dark' ? '🌙' : '☀️';
-  localStorage.setItem('rozgar-theme', t);
-});
-
-// Close modal on overlay click
-document.getElementById('modalOverlay').addEventListener('click', e => {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-});
-</script>
+    <title>Rozgar Sathi - Sarkari Naukri One Stop Shop</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script defer src="notification-prompt.js"></script>
 </body>
 </html>
